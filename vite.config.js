@@ -3,5 +3,8 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  assetsInclude: ['**/*.png', '**/*.PNG'], // Asegura soporte para archivos .png y .PNG
+  build: {
+    outDir: 'dist', // Directorio donde se generan los archivos de producción
+  },
+  assetsInclude: ['**/*.png', '**/*.PNG'], // Asegura soporte para imágenes
 });
