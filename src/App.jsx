@@ -10,26 +10,79 @@ import Instagram from "./assets/instagram.svg";
 import ArrowDown from "./assets/arrow-down.svg";
 import Preview from "./assets/preview.svg";
 import Git from "./assets/github.svg"
+import Whatsapp from "./assets/whatsapp.png"
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+
 
 import { useEffect, useState } from "react";
 
 function App() {
+  // Estado para manejar el efecto de scroll
   const [scrolling, setScrolling] = useState(false);
 
+  // Estado para el formulario de contacto
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const [status, setStatus] = useState('');
+
+  // Función para manejar el scroll
   const onPageScroll = () => {
-    if(window.pageYOffset > 200) {
-      setScrolling(true)
+    if (window.pageYOffset > 200) {
+      setScrolling(true);
     } else {
       setScrolling(false);
     }
-  }
+  };
 
+  // Manejo del evento de scroll
   useEffect(() => {
-    window.addEventListener("scroll", onPageScroll)
-    return() => {
-      window.removeEventListener("scroll", onPageScroll)
+    window.addEventListener("scroll", onPageScroll);
+    return () => {
+      window.removeEventListener("scroll", onPageScroll);
+    };
+  }, []);
+
+  // Función para manejar cambios en el formulario
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Función para enviar el formulario
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        setStatus('¡Correo enviado exitosamente!');
+        setFormData({ name: '', email: '', message: '' }); // Resetea el formulario
+      } else {
+        setStatus(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Error al enviar correo:', error);
+      setStatus('Error al enviar el correo.');
     }
-  }, [])
+  };
+
+
+
+  
 
   return (
     <div className="max-w-4xl m-auto relative">
@@ -81,7 +134,7 @@ function App() {
                 learn and develop in any area of work to meet the necessary requirements of this. I have skills in
                 technological tools such as: HTML, CSS, JAVASCRIPT, JAVA, SQL
                 </p>
-                <a href="/cv.pdf" download="cv.pdf">
+                <a href="https://drive.google.com/file/d/1OyR3PTOq1641whkm2Dju1Lctc2QC_Vg_/view?usp=sharing" download>
           <button className="px-8 py-5 mt-5 bg-white text-black rounded-full shadow-lg shadow-gray-500 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
             Download resume
           </button> </a>
@@ -95,110 +148,52 @@ function App() {
           </div>
         </section>
         {/* Projects section */}
-        <section id="projects">
-          <div className="container m-auto px-4 sm:py-12">
-            <h2 className="text-2xl font-semibold">Projects</h2>
-            <div className="flex flex-col sm:flex-row gap-10 mt-11">
-              <div className="border border-gray-500 rounded-md p-5 flex-1">
-              <img src={Project1} className="w-full h-auto" />
-                <h3 className="text-2xl font-semibold mt-8">
-                  Shopper/Ecommerce
-                </h3>
-                <p className="text-gray-400 text-sm mt-2">
-                  Reactjs, Nodejs, MongoDB... 
-                </p>
-                <div className="flex mt-12 gap-2">
-                <a href="https://frontend-five-fawn-95.vercel.app/">
-                <button className="flex-1 text-sm py-3 bg-gradient-to-t">
-                  <img src={Preview} alt="Live preview icon" className="h-6 w-6" />
-                  </button>
-
-
-
+        <section id="projects" className="bg-gray- py-16 h-screen flex items-center">
+  <div className="container mx-auto px-6 sm:px-12 h-full relative">
+    <h2 className="text-4xl font-bold text-white text-center mb-12">Projects</h2>
+    <div className="relative h-full">
+      <Swiper
+        spaceBetween={30}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        modules={[Navigation, Pagination]}
+        className="w-full h-full"
+      >
+        {[ 
+          { name: "Shopper/Ecommerce", tech: "Reactjs, Nodejs, MongoDB", img: Project1, live: "https://frontend-five-fawn-95.vercel.app/", repo: "https://github.com/juniorjunco/Ecommerce-FullStack.git" },
+          { name: "Marion Ve", tech: "HTML5, CSS3 (SCSS), JavaScript", img: Project2, live: "https://marionve.com/", repo: "https://github.com/juniorjunco/blog-pro" },
+          { name: "Agency inc.", tech: "HTML5, CSS3 (SCSS), JavaScript", img: Project3, live: "https://agency-inc.netlify.app/#home", repo: "https://github.com/juniorjunco/agency-inc" },
+          { name: "Farfalla", tech: "HTML5, CSS3 (SCSS), JavaScript", img: Project4, live: "https://farfallapizzeria.netlify.app/", repo: "https://github.com/juniorjunco/farfalla" }
+        ].map((project, index) => (
+          <SwiperSlide key={index} className="h-full relative">
+            <div className="relative h-full">
+              <img src={project.img} className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute bottom-0 left-0 w-full bg-black/50 p-6">
+                <h3 className="text-2xl font-semibold text-white">{project.name}</h3>
+                <p className="text-gray-white text-sm mt-2">{project.tech}</p>
+                <div className="flex justify-between mt-4">
+                  <a href={project.live} target="_blank" rel="noopener noreferrer">
+                    <button className="flex items-center justify-center bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition">
+                      <img src={Preview} alt="Live preview icon" className="h-6 w-6 mr-2" /> Live Preview
+                    </button>
                   </a>
-                  <a href="https://github.com/juniorjunco/Ecommerce-FullStack.git">
-                  <button className="flex-1 text-sm py-3">
-                  <img src={Git} alt="git" className="h-6 w-6" />
-                  </button>
-                  </a>
-                 
-                </div>
-              </div>
-              <div className="border border-gray-500 rounded-md p-5 flex-1">
-                <img src={Project2} className="w-full h-auto" />
-                <h3 className="text-2xl font-semibold mt-8">
-                 Marion Ve
-                </h3>
-                <p className="text-gray-400 text-sm mt-2">
-                  Responsive HTML/CSS/JavaScript  . HTML5, CSS3 (SCSS)
-                </p>
-                <div className="flex gap-2 mt-12">
-                <a href="https://marionve.com/">
-                <button className="flex-1 text-sm py-3 bg-gradient-to-t">
-                  <img src={Preview} alt="Live preview icon" className="h-6 w-6" />
-                  </button>
-
-
-
-                  </a>
-                  <a href="https://github.com/juniorjunco/blog-pro">
-                  <button className="flex-1 text-sm py-3">
-                  <img src={Git} alt="git" className="h-6 w-6" />
-                  </button>
+                  <a href={project.repo} target="_blank" rel="noopener noreferrer">
+                    <button className="flex items-center justify-center bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition">
+                      <img src={Git} alt="GitHub" className="h-6 w-6 mr-2" /> Code
+                    </button>
                   </a>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row  gap-10 mt-11">
-              <div className="border border-gray-500 rounded-md p-5 flex-1">
-                <img src={Project3} className="w-full h-auto" />
-                <h3 className="text-2xl font-semibold mt-8">
-                  Agency inc.
-                </h3>
-                <p className="text-gray-400 text-sm mt-2">
-                  Responsive HTML/CSS/ Javascrip
-                  . HTML5, CSS3 (SCSS)
-                </p>
-                <div className="flex gap-4 mt-12">
-                <a href="https://agency-inc.netlify.app/#home">
-                <button className="flex-1 text-sm py-3 bg-gradient-to-t">
-                  <img src={Preview} alt="Live preview icon" className="h-6 w-6" />
-                  </button>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  </div>
+</section>
 
-                  </a>
-                  <a href="https://github.com/juniorjunco/agency-inc">
-                  <button className="flex-1 text-sm py-3">
-                  <img src={Git} alt="git" className="h-6 w-6" />
-                  </button>
-                  </a>
-                </div>
-              </div>
-              <div className="border border-gray-500 rounded-md p-5 flex-1">
-                <img src={Project4} className="w-full h-auto" />
-                <h3 className="text-2xl font-semibold mt-8">
-                  Farfalla 
-                </h3>
-                <p className="text-gray-400 text-sm mt-2">
-                  Responsive HTML/CSS/Javascript . HTML5, CSS3
-                  (SCSS)
-                </p>
-                <div className="flex gap-2 mt-12">
-                <a href="https://farfallapizzeria.netlify.app/">
-                <button className="flex-1 text-sm py-3 bg-gradient-to-t">
-                  <img src={Preview} alt="Live preview icon" className="h-6 w-6" />
-                  </button>
 
-                  </a>
-                  <a href="https://github.com/juniorjunco/farfalla">
-                  <button className="flex-1 text-sm py-3">
-                  <img src={Git} alt="git" className="h-6 w-6" />
-                  </button>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
         {/* Technoglies section */}
         <section className="py-10" id="technologies">
           <div className="container m-auto px-4">
@@ -340,6 +335,50 @@ function App() {
         </section>
       </main>
       <footer>
+        
+
+      <main className="p-4">
+        <section id="contact">
+          <h2 className="text-center text-xl mb-4">Contact</h2>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md mx-auto">
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+              required
+            />
+            <textarea
+              name="message"
+              placeholder="Write your message"
+              value={formData.message}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded"
+              rows="4"
+              required
+            ></textarea>
+            <button
+              type="submit"
+              className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Send
+            </button>
+          </form>
+          {status && <p className="mt-4 text-center">{status}</p>}
+        </section>
+      </main>
+
         <div className="container m-auto flex justify-between px-4 py-6">
           <div>
             <p className="text-gray-300 text-sm">Juniorjunco</p>
@@ -357,7 +396,9 @@ function App() {
                 </a>
               </li>
               <li>
-               
+              <a href="">
+                  <img src={Whatsapp} className="w-5" />
+                </a>
               </li>
             </ul>
           </div>
