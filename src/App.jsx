@@ -5,8 +5,8 @@ import Project2 from "./assets/marionve.PNG";
 import Project3 from "./assets/agency.PNG";
 import Project4 from "./assets/farfalla.PNG";
 import Project5 from "./assets/cursos.PNG"
-import Project6 from "./assets/elegant.png"
-import Project7 from "./assets/elkin.png"
+import Project6 from "./assets/elegant.PNG"
+import Project7 from "./assets/elkin.PNG"
 import Facebook from "./assets/facebook.svg";
 import LinkedIn from "./assets/linkedin.svg";
 import Instagram from "./assets/instagram.svg";
