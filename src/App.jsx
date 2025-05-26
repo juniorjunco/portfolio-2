@@ -352,20 +352,20 @@ function App() {
     type="text"
     name="name"
     placeholder="Name"
-    className="p-2 border border-gray-300 rounded"
+    className="p-2 border border-gray-300 rounded text-black"
     required
   />
   <input
     type="email"
     name="email"
     placeholder="Email"
-    className="p-2 border border-gray-300 rounded"
+    className="p-2 border border-gray-300 rounded text-black"
     required
   />
   <textarea
     name="message"
     placeholder="Write your message"
-    className="p-2 border border-gray-300 rounded"
+    className="p-2 border border-gray-300 rounded text-black"
     rows="4"
     required
   ></textarea>
@@ -376,6 +376,7 @@ function App() {
     Send
   </button>
 </form>
+
 
           {status && <p className="mt-4 text-center">{status}</p>}
         </section>
