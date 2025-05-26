@@ -4,6 +4,9 @@ import Project1 from "./assets/shopper.png";
 import Project2 from "./assets/marionve.PNG";
 import Project3 from "./assets/agency.PNG";
 import Project4 from "./assets/farfalla.PNG";
+import Project5 from "./assets/cursos.png"
+import Project6 from "./assets/elegant.png"
+import Project7 from "./assets/elkin.png"
 import Facebook from "./assets/facebook.svg";
 import LinkedIn from "./assets/linkedin.svg";
 import Instagram from "./assets/instagram.svg";
@@ -148,7 +151,7 @@ function App() {
           </div>
         </section>
         {/* Projects section */}
-        <section id="projects" className="bg-gray- py-16 h-screen flex items-center">
+        <section id="projects" className=" bg-gray- py-16 h-screen flex items-center">
   <div className="container mx-auto px-6 sm:px-12 h-full relative">
     <h2 className="text-4xl font-bold text-white text-center mb-12">Projects</h2>
     <div className="relative h-full">
@@ -161,10 +164,10 @@ function App() {
         className="w-full h-full"
       >
         {[ 
-          { name: "Shopper/Ecommerce", tech: "Reactjs, Nodejs, MongoDB", img: Project1, live: "https://frontend-five-fawn-95.vercel.app/", repo: "https://github.com/juniorjunco/Ecommerce-FullStack.git" },
           { name: "Marion Ve", tech: "HTML5, CSS3 (SCSS), JavaScript", img: Project2, live: "https://marionve.com/", repo: "https://github.com/juniorjunco/blog-pro" },
-          { name: "Agency inc.", tech: "HTML5, CSS3 (SCSS), JavaScript", img: Project3, live: "https://agency-inc.netlify.app/#home", repo: "https://github.com/juniorjunco/agency-inc" },
-          { name: "Farfalla", tech: "HTML5, CSS3 (SCSS), JavaScript", img: Project4, live: "https://farfallapizzeria.netlify.app/", repo: "https://github.com/juniorjunco/farfalla" }
+          { name: "Elkin Torres", tech: "HTML5, CSS3 (SCSS), JavaScript", img: Project7, live: "https://elkintattoo.netlify.app/", repo: "https://github.com/juniorjunco/elkint" },
+          { name: "Cursos Online", tech: "Reactjs, Nodejs, MongoDB", img: Project5, live: "https://cursos-online-sandy.vercel.app/", repo: "https://github.com/juniorjunco/backend-cursos-frank" },
+          { name: "Elegant", tech: "Reactjs, Nodejs, MongoDB", img: Project6, live: "https://client-iota-vert.vercel.app/", repo: "https://ecommerceback01.vercel.app/" }
         ].map((project, index) => (
           <SwiperSlide key={index} className="h-full relative">
             <div className="relative h-full">
@@ -340,41 +343,40 @@ function App() {
       <main className="p-4">
         <section id="contact">
           <h2 className="text-center text-xl mb-4">Contact</h2>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md mx-auto">
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded"
-              required
-            />
-            <textarea
-              name="message"
-              placeholder="Write your message"
-              value={formData.message}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded"
-              rows="4"
-              required
-            ></textarea>
-            <button
-              type="submit"
-              className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Send
-            </button>
-          </form>
+          <form
+  action="https://formspree.io/f/xleqqqge"
+  method="POST"
+  className="flex flex-col gap-4 max-w-md mx-auto"
+>
+  <input
+    type="text"
+    name="name"
+    placeholder="Name"
+    className="p-2 border border-gray-300 rounded"
+    required
+  />
+  <input
+    type="email"
+    name="email"
+    placeholder="Email"
+    className="p-2 border border-gray-300 rounded"
+    required
+  />
+  <textarea
+    name="message"
+    placeholder="Write your message"
+    className="p-2 border border-gray-300 rounded"
+    rows="4"
+    required
+  ></textarea>
+  <button
+    type="submit"
+    className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+  >
+    Send
+  </button>
+</form>
+
           {status && <p className="mt-4 text-center">{status}</p>}
         </section>
       </main>
